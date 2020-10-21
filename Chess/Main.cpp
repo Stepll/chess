@@ -81,6 +81,7 @@ void loadPosition()
 }
 
 int current = 0;
+bool step = true; // true is white, false is black
 
 void scan() {
 	for (int i = 0; i < 8; i++)
@@ -96,8 +97,6 @@ void scan() {
 
 bool check(int index, Vector2f oldpos, Vector2f newpos)
 {
-	std::cout << oldpos.x/size << " " << oldpos.y/size << std::endl;
-	std::cout << newpos.x/size << " " << newpos.y/size << std::endl;
 	int oldx = oldpos.x / size;
 	int oldy = oldpos.y / size;
 	int newx = newpos.x / size;
@@ -109,7 +108,7 @@ bool check(int index, Vector2f oldpos, Vector2f newpos)
 		if ((oldy == 6) && (newy == 4) && (oldx == newx) && (boardinfo[newy][newx] == 0) && (boardinfo[newy + 1][newx] == 0)) { return true; } // стартовый ход на 2 и чтобы не сбил и не перепрыгнул
 		if ((oldy - newy == 1) && (abs(oldx - newx) == 1) && (boardinfo[newy][newx] < 0)) { return true; } // сбивает по диагонали если там фигура черного цвета
 	}
-	if (index == 3) // белая ладья
+	if (index == 3 && boardinfo[newy][newx] <= 0) // белая ладья
 	{
 		if (oldx == newx) // двигается по y
 		{
@@ -117,15 +116,11 @@ bool check(int index, Vector2f oldpos, Vector2f newpos)
 			{
 				for (int i = oldy + 1; i < newy; i++)
 					if (boardinfo[i][oldx] != 0) return false;
-				if (boardinfo[newy][oldx] <= 0) return true;
-				return false;
 			}
 			if (newy < oldy) // вверх
 			{
 				for (int i = oldy - 1; i > newy; i--)
 					if (boardinfo[i][oldx] != 0) return false;
-				if (boardinfo[newy][oldx] <= 0) return true;
-				return false;
 			}
 		}
 		if (oldy == newy) // двигается по x
@@ -134,17 +129,14 @@ bool check(int index, Vector2f oldpos, Vector2f newpos)
 			{
 				for (int i = oldx + 1; i < newx; i++)
 					if (boardinfo[oldy][i] != 0) return false;
-				if (boardinfo[newy][newx] <= 0) return true;
-				return false;
 			}
 			if (newx < oldx) // влево
 			{
 				for (int i = oldx - 1; i > newx; i--)
 					if (boardinfo[oldy][i] != 0) return false;
-				if (boardinfo[newy][newx] <= 0) return true;
-				return false;
 			}
 		}
+		return true;
 	}
 	if (index == 4 && boardinfo[newy][newx] <= 0) // конь // 8 вариантов
 	{
@@ -152,7 +144,6 @@ bool check(int index, Vector2f oldpos, Vector2f newpos)
 		if ((newx - oldx == -1) && (abs(newy - oldy) == 2)) return true;
 		if ((newx - oldx == 2) && (abs(newy - oldy) == 1)) return true;
 		if ((newx - oldx == -2) && (abs(newy - oldy) == 1)) return true;
-		return false;
 	}
 	if (index == 5 && boardinfo[newy][newx] <= 0) { // слон
 		if (oldx + oldy == newx + newy) // x+ y+ or x- y-
@@ -162,14 +153,12 @@ bool check(int index, Vector2f oldpos, Vector2f newpos)
 				int j = oldy - 1;
 				for (int i = oldx + 1; i < newx; i++, j--)
 					if (boardinfo[j][i] != 0) return false;
-				return true;
 			}
 			if (newx < oldx)
 			{
 				int j = oldy + 1;
 				for (int i = oldx - 1; i > newx; i--, j++)
 					if (boardinfo[j][i] != 0) return false;
-				return true;
 			}
 		}
 		if (abs(oldx - oldy) == abs(newx - newy)) // x- y+ or x+ y-
@@ -179,16 +168,15 @@ bool check(int index, Vector2f oldpos, Vector2f newpos)
 				int j = oldy + 1;
 				for (int i = oldx + 1; i < newx; i++, j++)
 					if (boardinfo[j][i] != 0) return false;
-				return true;
 			}
 			if (newx < oldx)
 			{
 				int j = oldy - 1;
 				for (int i = oldx - 1; i > newx; i--, j--)
 					if (boardinfo[j][i] != 0) return false;
-				return true;
 			}
 		}
+		return true;
 	}
 	if (index == 2 && boardinfo[newy][newx] <= 0) // королева
 	{
@@ -198,15 +186,11 @@ bool check(int index, Vector2f oldpos, Vector2f newpos)
 			{
 				for (int i = oldy + 1; i < newy; i++)
 					if (boardinfo[i][oldx] != 0) return false;
-				if (boardinfo[newy][oldx] <= 0) return true;
-				return false;
 			}
 			if (newy < oldy) // вверх
 			{
 				for (int i = oldy - 1; i > newy; i--)
 					if (boardinfo[i][oldx] != 0) return false;
-				if (boardinfo[newy][oldx] <= 0) return true;
-				return false;
 			}
 		}
 		if (oldy == newy) // двигается по x
@@ -215,15 +199,11 @@ bool check(int index, Vector2f oldpos, Vector2f newpos)
 			{
 				for (int i = oldx + 1; i < newx; i++)
 					if (boardinfo[oldy][i] != 0) return false;
-				if (boardinfo[newy][newx] <= 0) return true;
-				return false;
 			}
 			if (newx < oldx) // влево
 			{
 				for (int i = oldx - 1; i > newx; i--)
 					if (boardinfo[oldy][i] != 0) return false;
-				if (boardinfo[newy][newx] <= 0) return true;
-				return false;
 			}
 		}
 		if (oldx + oldy == newx + newy) // x+ y+ or x- y-
@@ -233,14 +213,12 @@ bool check(int index, Vector2f oldpos, Vector2f newpos)
 				int j = oldy - 1;
 				for (int i = oldx + 1; i < newx; i++, j--)
 					if (boardinfo[j][i] != 0) return false;
-				return true;
 			}
 			if (newx < oldx)
 			{
 				int j = oldy + 1;
 				for (int i = oldx - 1; i > newx; i--, j++)
 					if (boardinfo[j][i] != 0) return false;
-				return true;
 			}
 		}
 		if (abs(oldx - oldy) == abs(newx - newy)) // x- y+ or x+ y-
@@ -250,22 +228,162 @@ bool check(int index, Vector2f oldpos, Vector2f newpos)
 				int j = oldy + 1;
 				for (int i = oldx + 1; i < newx; i++, j++)
 					if (boardinfo[j][i] != 0) return false;
-				return true;
 			}
 			if (newx < oldx)
 			{
 				int j = oldy - 1;
 				for (int i = oldx - 1; i > newx; i--, j--)
 					if (boardinfo[j][i] != 0) return false;
-				return true;
 			}
 		} // извините за говнокод
+		return true;
 	}
 	if (index == 1 && boardinfo[newy][newx] <= 0) // королb
 	{
 		if ((abs(oldx - newx) <= 1) && ((abs(oldy - newy) <= 1))) return true;
 	}
-	
+
+
+	if (index == -6) // !белая пешка
+	{
+		if ((oldy - newy == -1) && (oldx == newx) && (boardinfo[newy][newx] == 0)) { /*std::cout << boardinfo[newy][newx] << std::endl;*/ return true; } // ход вперед и чтобы ничего не сбил
+		if ((oldy == 1) && (newy == 3) && (oldx == newx) && (boardinfo[newy][newx] == 0) && (boardinfo[newy - 1][newx] == 0)) { return true; } // стартовый ход на 2 и чтобы не сбил и не перепрыгнул
+		if ((oldy - newy == -1) && (abs(oldx - newx) == 1) && (boardinfo[newy][newx] < 0)) { return true; } // сбивает по диагонали если там фигура черного цвета
+	}
+	if (index == -3 && boardinfo[newy][newx] >= 0) // !белая ладья
+	{
+		if (oldx == newx) // двигается по y
+		{
+			if (newy > oldy) // вниз
+			{
+				for (int i = oldy + 1; i < newy; i++)
+					if (boardinfo[i][oldx] != 0) return false;
+			}
+			if (newy < oldy) // вверх
+			{
+				for (int i = oldy - 1; i > newy; i--)
+					if (boardinfo[i][oldx] != 0) return false;
+			}
+		}
+		if (oldy == newy) // двигается по x
+		{
+			if (newx > oldx) // вправо
+			{
+				for (int i = oldx + 1; i < newx; i++)
+					if (boardinfo[oldy][i] != 0) return false;
+			}
+			if (newx < oldx) // влево
+			{
+				for (int i = oldx - 1; i > newx; i--)
+					if (boardinfo[oldy][i] != 0) return false;
+			}
+		}
+		return true;
+	}
+	if (index == -4 && boardinfo[newy][newx] >= 0) // конь // 8 вариантов
+	{
+		if ((newx - oldx == 1) && (abs(newy - oldy) == 2)) return true;
+		if ((newx - oldx == -1) && (abs(newy - oldy) == 2)) return true;
+		if ((newx - oldx == 2) && (abs(newy - oldy) == 1)) return true;
+		if ((newx - oldx == -2) && (abs(newy - oldy) == 1)) return true;
+	}
+	if (index == -5 && boardinfo[newy][newx] >= 0) { // слон
+		if (oldx + oldy == newx + newy) // x+ y+ or x- y-
+		{
+			if (newx > oldx)
+			{
+				int j = oldy - 1;
+				for (int i = oldx + 1; i < newx; i++, j--)
+					if (boardinfo[j][i] != 0) return false;
+			}
+			if (newx < oldx)
+			{
+				int j = oldy + 1;
+				for (int i = oldx - 1; i > newx; i--, j++)
+					if (boardinfo[j][i] != 0) return false;
+			}
+		}
+		if (abs(oldx - oldy) == abs(newx - newy)) // x- y+ or x+ y-
+		{
+			if (newx > oldx)
+			{
+				int j = oldy + 1;
+				for (int i = oldx + 1; i < newx; i++, j++)
+					if (boardinfo[j][i] != 0) return false;
+			}
+			if (newx < oldx)
+			{
+				int j = oldy - 1;
+				for (int i = oldx - 1; i > newx; i--, j--)
+					if (boardinfo[j][i] != 0) return false;
+			}
+		}
+		return true;
+	}
+	if (index == -2 && boardinfo[newy][newx] >= 0) // королева
+	{
+		if (oldx == newx) // двигается по y
+		{
+			if (newy > oldy) // вниз
+			{
+				for (int i = oldy + 1; i < newy; i++)
+					if (boardinfo[i][oldx] != 0) return false;
+			}
+			if (newy < oldy) // вверх
+			{
+				for (int i = oldy - 1; i > newy; i--)
+					if (boardinfo[i][oldx] != 0) return false;
+			}
+		}
+		if (oldy == newy) // двигается по x
+		{
+			if (newx > oldx) // вправо
+			{
+				for (int i = oldx + 1; i < newx; i++)
+					if (boardinfo[oldy][i] != 0) return false;
+			}
+			if (newx < oldx) // влево
+			{
+				for (int i = oldx - 1; i > newx; i--)
+					if (boardinfo[oldy][i] != 0) return false;
+			}
+		}
+		if (oldx + oldy == newx + newy) // x+ y+ or x- y-
+		{
+			if (newx > oldx)
+			{
+				int j = oldy - 1;
+				for (int i = oldx + 1; i < newx; i++, j--)
+					if (boardinfo[j][i] != 0) return false;
+			}
+			if (newx < oldx)
+			{
+				int j = oldy + 1;
+				for (int i = oldx - 1; i > newx; i--, j++)
+					if (boardinfo[j][i] != 0) return false;
+			}
+		}
+		if (abs(oldx - oldy) == abs(newx - newy)) // x- y+ or x+ y-
+		{
+			if (newx > oldx)
+			{
+				int j = oldy + 1;
+				for (int i = oldx + 1; i < newx; i++, j++)
+					if (boardinfo[j][i] != 0) return false;
+			}
+			if (newx < oldx)
+			{
+				int j = oldy - 1;
+				for (int i = oldx - 1; i > newx; i--, j--)
+					if (boardinfo[j][i] != 0) return false;
+			}
+		} // извините за говнокод
+		return true;
+	}
+	if (index == -1 && boardinfo[newy][newx] >= 0) // королb
+	{
+		if ((abs(oldx - newx) <= 1) && ((abs(oldy - newy) <= 1))) return true;
+	}
 	return false;
 }
 
@@ -275,6 +393,7 @@ int main()
 {
 	
 	RenderWindow window(VideoMode(453, 453), "chess");
+	std::cout << "white" << std::endl;
 
 	Texture t1, t2;
 	t1.loadFromFile("images/chess.png");
@@ -333,25 +452,29 @@ int main()
 			if (event.type == Event::MouseButtonReleased)
 				if (event.key.code == Mouse::Left)
 				{
+					bool bad = false;
 					isMove = false;
 					Vector2f p = figure[n].getPosition() + Vector2f(size / 2, size / 2);
 					Vector2f newPos = Vector2f(size * int(p.x / size), size * int(p.y / size));
 					
 					//std::cout << newPos.x << " " << newPos.y << std::endl;
-					if (check(current, oldPos, newPos)) { std::cout << "nice" << std::endl; }
+					if (check(current, oldPos, newPos) && (((current > 0) && (step)) || ((current < 0) && (!step)))) { std::cout << "nice" << std::endl; }
+					else { std::cout << "bad step" << std::endl; bad = true; }
 					str = toChessNote(oldPos) + toChessNote(newPos);
 					move(str);
 					position += str + " ";
 					std::cout << str << std::endl;
 					figure[n].setPosition(newPos);
-					//scan();
-					for (int i = 0; i < 8; i++)
+					if (bad)
 					{
-						for (int j = 0; j < 8; j++)
-						{
-							std::cout << boardinfo[i][j];
-						}
-						std::cout << std::endl;
+						position.erase(position.length() - 6, 5);
+						loadPosition();
+					}
+					else
+					{
+						step = !step;
+						if (step) std::cout << "white" << std::endl;
+						else std::cout << "black" << std::endl;
 					}
 				}
 		}
