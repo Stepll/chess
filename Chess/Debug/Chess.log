@@ -1,1 +1,22 @@
-﻿  Chess.vcxproj -> E:\code\VS C++\chess\Chess\Debug\Chess.exe
+﻿  Main.cpp
+e:\code\vs c++\chess\chess\chess\main.cpp(34): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+e:\code\vs c++\chess\chess\chess\main.cpp(73): warning C4244: аргумент: преобразование "T" в "T", возможна потеря данных
+          with
+          [
+              T=int
+          ]
+          and
+          [
+              T=float
+          ]
+e:\code\vs c++\chess\chess\chess\main.cpp(84): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+e:\code\vs c++\chess\chess\chess\main.cpp(85): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+  Chess.vcxproj -> E:\code\VS C++\chess\Chess\Debug\Chess.exe
