@@ -1,6 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include <time.h>
 #include <iostream>
+#include "windows.h"
+
 //#include "Connector.hpp"
 
 using namespace sf;
@@ -288,7 +290,7 @@ int checkAttack(bool king) // return 0 is nothing return 1 is attack return 2 is
 	for (int i = 0; i < j; i++)
 	{
 		Vector2f tmp = Vector2f(enemy[i][1], enemy[i][2]);
-		//std::cout << enemy[i][0] << " " << enemy[i][1] << " " << enemy[i][2] << " " << kingpos.x << " " << kingpos.y << std::endl;
+		
 		if (check(enemy[i][0], tmp, kingpos))
 		{
 			//checklose
@@ -369,34 +371,56 @@ int main()
 				if (event.key.code == Mouse::Left)
 				{
 					bool bad = false;
+					bool lose = false;
 					isMove = false;
 					Vector2f p = figure[n].getPosition() + Vector2f(size / 2, size / 2);
 					Vector2f newPos = Vector2f(size * int(p.x / size), size * int(p.y / size));
 					
 					//std::cout << newPos.x << " " << newPos.y << std::endl;
-					if (check(current, oldPos, newPos) && (((current > 0) && (step)) || ((current < 0) && (!step)))) { std::cout << "nice" << std::endl; }
+					if (check(current, oldPos, newPos) && (((current > 0) && (step)) || ((current < 0) && (!step)))) {}
 					else { std::cout << "bad step" << std::endl; bad = true; }
+					for (int i = 0; i < 32; i++)
+					{
+						if ((abs(figureindex[i]) == 1) && (figure[i].getPosition() == newPos)) lose = true;
+					}
 					str = toChessNote(oldPos) + toChessNote(newPos);
 					move(str);
 					position += str + " ";
-					std::cout << str << std::endl;
+					
 					figure[n].setPosition(newPos);
-					if (bad)
-					{
-						position.erase(position.length() - 6, 5);
-						loadPosition();
+					if (lose) {
+						std::cout << "win ";
+						(step) ? std::cout << "white" << std::endl : std::cout << "black" << std::endl;
+						Sleep(500);
+						std::cout << "3" << std::endl;
+						Sleep(500);
+						std::cout << "2" << std::endl;
+						Sleep(500);
+						std::cout << "1" << std::endl;
+						Sleep(500);
+						window.close();
 					}
 					else
 					{
-						step = !step;
-					}
-					if (step) std::cout << "white" << std::endl;
-					else std::cout << "black" << std::endl;
-					int tmp = checkAttack(step);
-					if (tmp == 1)
-					{
-						std::cout << "attack in ";
-						(step) ? std::cout << "white" << std::endl : std::cout << "black" << std::endl;
+
+						if (bad)
+						{
+							position.erase(position.length() - 6, 5);
+							loadPosition();
+						}
+						else
+						{
+							std::cout << str << std::endl;
+							step = !step;
+						}
+						if (step) std::cout << "white" << std::endl;
+						else std::cout << "black" << std::endl;
+						int tmp = checkAttack(step);
+						if (tmp == 1)
+						{
+							std::cout << "attack in ";
+							(step) ? std::cout << "white" << std::endl : std::cout << "black" << std::endl;
+						}
 					}
 				}
 		}
