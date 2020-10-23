@@ -24,6 +24,10 @@ int board[8][8] =
 
 int boardinfo[8][8];
 
+std::string position = "e2e2 ";
+int current = 0;
+bool step = true; // true is white, false is black
+
 std::string toChessNote(Vector2f p)
 {
 	std::string s = "";
@@ -56,7 +60,6 @@ void move(std::string str)
 	}
 }
 
-std::string position = "";
 
 void loadPosition()
 {
@@ -82,8 +85,6 @@ void loadPosition()
 	}
 }
 
-int current = 0;
-bool step = true; // true is white, false is black
 
 void scan() {
 	for (int i = 0; i < 8; i++)
@@ -235,7 +236,6 @@ bool check(int index, Vector2f oldpos, Vector2f newpos)
 		}
 		if (oldx - oldy == newx - newy) // x- y+ or x+ y-
 		{
-			std::cout << "this4" << std::endl;
 			if (newx > oldx)
 			{
 				int j = oldy + 1;
@@ -376,7 +376,6 @@ int main()
 					Vector2f p = figure[n].getPosition() + Vector2f(size / 2, size / 2);
 					Vector2f newPos = Vector2f(size * int(p.x / size), size * int(p.y / size));
 					
-					//std::cout << newPos.x << " " << newPos.y << std::endl;
 					if (check(current, oldPos, newPos) && (((current > 0) && (step)) || ((current < 0) && (!step)))) {}
 					else { std::cout << "bad step" << std::endl; bad = true; }
 					for (int i = 0; i < 32; i++)
@@ -391,12 +390,11 @@ int main()
 					if (lose) {
 						std::cout << "win ";
 						(step) ? std::cout << "white" << std::endl : std::cout << "black" << std::endl;
-						Sleep(500);
-						std::cout << "3" << std::endl;
-						Sleep(500);
-						std::cout << "2" << std::endl;
-						Sleep(500);
-						std::cout << "1" << std::endl;
+						for (int i = 3; i > 0; i--)
+						{
+							Sleep(500);
+							std::cout << i << std::endl;
+						}
 						Sleep(500);
 						window.close();
 					}
