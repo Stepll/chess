@@ -249,7 +249,7 @@ bool check(int index, Vector2f oldpos, Vector2f newpos)
 					if (boardinfo[j][i] != 0) return false;
 			}
 			return true;
-		} // извините за ****код
+		}
 		return false;
 	}
 	if ((index == 1 && boardinfo[newy][newx] <= 0) || (index == -1 && boardinfo[newy][newx] >= 0)) // королb

@@ -36,22 +36,22 @@ e:\code\vs c++\chess\chess\chess\main.cpp(106): warning C4244: инициали�
           [
               T=float
           ]
-e:\code\vs c++\chess\chess\chess\main.cpp(286): warning C4244: =: преобразование "const T" в "int", возможна потеря данных
+e:\code\vs c++\chess\chess\chess\main.cpp(288): warning C4244: =: преобразование "const T" в "int", возможна потеря данных
           with
           [
               T=float
           ]
-e:\code\vs c++\chess\chess\chess\main.cpp(287): warning C4244: =: преобразование "const T" в "int", возможна потеря данных
+e:\code\vs c++\chess\chess\chess\main.cpp(289): warning C4244: =: преобразование "const T" в "int", возможна потеря данных
           with
           [
               T=float
           ]
-e:\code\vs c++\chess\chess\chess\main.cpp(293): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
+e:\code\vs c++\chess\chess\chess\main.cpp(295): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
           with
           [
               T=float
           ]
-e:\code\vs c++\chess\chess\chess\main.cpp(359): warning C4244: аргумент: преобразование "T" в "T", возможна потеря данных
+e:\code\vs c++\chess\chess\chess\main.cpp(387): warning C4244: аргумент: преобразование "T" в "T", возможна потеря данных
           with
           [
               T=int
@@ -60,12 +60,12 @@ e:\code\vs c++\chess\chess\chess\main.cpp(359): warning C4244: аргумент:
           [
               T=float
           ]
-e:\code\vs c++\chess\chess\chess\main.cpp(377): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
+e:\code\vs c++\chess\chess\chess\main.cpp(404): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
           with
           [
               T=float
           ]
-e:\code\vs c++\chess\chess\chess\main.cpp(378): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
+e:\code\vs c++\chess\chess\chess\main.cpp(405): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
           with
           [
               T=float
