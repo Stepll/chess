@@ -1,11 +1,16 @@
 #ifndef OOP
 #define OOP
 
+#include <SFML/Graphics.hpp>
+#include <time.h>
+#include "windows.h"
 #include <windows.h>
 #include <stdio.h>
 #include <iostream>
 #include <string>
 #include <vector>
+
+using namespace sf;
 
 class Coordinates 
 {
@@ -16,11 +21,11 @@ public:
 class Figure // x32
 {
 public:
-	//int x, y; // coordinates
 	Coordinates pos;
+	Sprite texture;
 	std::vector<Coordinates> figureReadyMove;
-	bool color; // true is white, false is black
-	int index;
+	bool color = true; // true is white, false is black
+	int index = 0;
 
 
 	Figure() {}
@@ -33,60 +38,17 @@ public:
 		this->color = color;
 	}
 
-	//virtual void update() {}
+	int getindex()
+	{
+		return index;
+	}
 };
 
-//class Pawn : public Figure // x16...
-//{
-//public:
-//	/*void update()
-//	{
-//		figureReadyMove.clear();
-//		if (color)
-//		{
-//			if (pos.y == 4) 
-//		}
-//		else
-//		{
-//		
-//		}
-//	}*/
-//};
-//
-//class Knight : public Figure
-//{
-//public:
-//
-//};
-//
-//class Bishop : public Figure
-//{
-//public:
-//
-//};
-//
-//class Rook : public Figure
-//{
-//public:
-//
-//};
-//
-//class Queen : public Figure
-//{
-//public:
-//
-//};
-//
-//class King : public Figure
-//{
-//public:
-//
-//};
 
 class Field // x64(8x8) info attack
 {
 public:
-	Figure* figure;
+	Figure figure;
 	// int x, y; // coordinates
 	Coordinates pos;
 	std::vector<Figure> listFigures; // all figures that attack this field
@@ -98,6 +60,11 @@ public:
 		this->pos.x = x;
 		this->pos.y = y;
 	}
+
+	Field(int x, int y, Figure figure) : Field(x, y)
+	{
+		this->figure = figure;
+	}
 };
 
 class Map
@@ -105,12 +72,23 @@ class Map
 public:
 	Field field[8][8];
 
+	Map()
+	{
+		for (int i = 0; i < 8; i++)
+		{
+			for (int j = 0; j < 8; j++)
+			{
+				field[i][j] = *new Field();
+			}
+		}
+	}
+
 	void check() 
 	{
 
 	}
 
-	void updateone(Figure* figure)
+	void updateone(Figure figure)
 	{
 	
 	}
@@ -121,7 +99,7 @@ public:
 		{
 			for (int j = 0; j < 8; j++)
 			{
-				if (field[i][j].figure) updateone(field[i][j].figure);
+				if (&field[i][j].figure) updateone(field[i][j].figure);
 			}
 		}
 	}
@@ -153,21 +131,93 @@ public:
 class Board // x1
 {
 public:
-	//Field map[8][8];
 	Map map;
 	//Figure Figures[32]; //mb
 	Player white, black;
+	std::string position;
+	int size;
 
-	Board(Player white, Player black, Field map[8][8])
+	Board(Player white, Player black, Field field[8][8], int size)
 	{
+		position = "e2e2 ";
+		Map map = *new Map();
 		this->white = white;
 		this->black = black;
+		this->size = size;
 		for (int i = 0; i < 8; i++)
 		{
 			for (int j = 0; j < 8; j++)
 			{
-				this->map.field[i][j] = map[i][j];
+				this->map.field[i][j] = field[i][j];
 			}
+		}
+	}
+
+	void swichStep()
+	{
+		black.step = !black.step;
+		white.step = !white.step;
+	}
+
+	std::string toChessNote(Vector2f p)
+	{
+		std::string s = "";
+		s += char(p.x / size + 97);
+		s += char(7 - p.y / size + 49);
+		return s;
+	}
+
+	Vector2f toCoord(char a, char b)
+	{
+		int x = int(a) - 97;
+		int y = 7 - int(b) + 49;
+		return Vector2f(x * size, y * size);
+	}
+
+	void move(std::string str) // oop ready
+	{
+		Vector2f oldPos = toCoord(str[0], str[1]);
+		Vector2f newPos = toCoord(str[2], str[3]);
+
+		if (oldPos != newPos)
+		{
+			for (int i = 0; i < 16; i++)
+			{
+				if (white.Figures[i].texture.getPosition() == newPos) white.Figures[i].texture.setPosition(-50, -50);
+				if (black.Figures[i].texture.getPosition() == newPos) black.Figures[i].texture.setPosition(-50, -50);
+			}
+
+
+			for (int i = 0; i < 16; i++)
+			{
+				if (white.Figures[i].texture.getPosition() == oldPos) white.Figures[i].texture.setPosition(newPos);
+				if (black.Figures[i].texture.getPosition() == oldPos) black.Figures[i].texture.setPosition(newPos);
+			}
+		}
+	}
+
+
+	void loadPosition() // opp ready
+	{
+		int k = 0;
+		for (int i = 0; i < 8; i++)
+		{
+			for (int j = 0; j < 8; j++)
+			{
+				std::cout << i << " " << j << std::endl;
+				int n = map.field[i][j].figure.getindex();
+				if (!n) continue;
+				int x = n - 1;
+				int y = map.field[i][j].figure.color ? 1 : 0;
+				map.field[i][j].figure.texture.setTextureRect(IntRect(size * x, size * y, size, size));
+				map.field[i][j].figure.texture.setPosition(size * j, size * i);
+				k++;
+			}
+		}
+
+		for (int i = 0; i < position.length(); i += 5)
+		{
+			move(position.substr(i, 4));
 		}
 	}
 };

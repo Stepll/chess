@@ -13,6 +13,8 @@ int size = 56;
 Sprite figure[32];
 int figureindex[32];
 
+Figure allFigures[32]; // oop
+
 int board[8][8] =
 {-3,-4,-5,-2,-1,-5,-4,-3,
  -6,-6,-6,-6,-6,-6,-6,-6,
@@ -46,7 +48,7 @@ Vector2f toCoord(char a, char b)
 
 
 
-void move(std::string str)
+void move(std::string str) // oop ready
 {
 	Vector2f oldPos = toCoord(str[0], str[1]);
 	Vector2f newPos = toCoord(str[2], str[3]);
@@ -54,15 +56,22 @@ void move(std::string str)
 	if (oldPos != newPos)
 	{
 		for (int i = 0; i < 32; i++)
+		{
 			if (figure[i].getPosition() == newPos) figure[i].setPosition(-50, -50);
+			if (allFigures[i].texture.getPosition() == newPos) allFigures[i].texture.setPosition(-50, -50);
+		}
+	
 
 		for (int i = 0; i < 32; i++)
+		{
 			if (figure[i].getPosition() == oldPos) figure[i].setPosition(newPos);
+			if (allFigures[i].texture.getPosition() == oldPos) allFigures[i].texture.setPosition(newPos);
+		}
 	}
 }
 
 
-void loadPosition()
+void loadPosition() // opp ready
 {
 	int k = 0;
 	for (int i = 0; i < 8; i++)
@@ -73,6 +82,8 @@ void loadPosition()
 			if (!n) continue;
 			int x = abs(n) - 1;
 			int y = n > 0 ? 1 : 0;
+			allFigures[k].texture.setTextureRect(IntRect(size * x, size * y, size, size));
+			allFigures[k].texture.setPosition(size * j, size * i);
 			figure[k].setTextureRect(IntRect(size * x, size * y, size, size));
 			figure[k].setPosition(size * j, size * i);
 			figureindex[k] = board[i][j];
@@ -307,6 +318,44 @@ int checkAttack(bool king) // return 0 is nothing return 1 is attack return 2 is
 
 int main()
 {
+
+
+
+	// oop
+
+
+
+	Field fields[8][8];
+	Figure whitefigures[16], blackfigures[16];
+	int wf = 0, bf = 0, f = 0;  // iterator
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			if (board[j][i] == abs(6))
+			{
+				allFigures[f] = *new Figure(6, j, i, { (board[j][i] > 0) ? true : false });
+				if (board[j][i] > 0) { whitefigures[wf] = allFigures[f]; wf++; }
+				else { blackfigures[bf] = allFigures[f]; bf++; }
+			}
+			
+			if (allFigures[f].index)
+			{ 
+				fields[j][i] = *new Field(j, i, allFigures[f]);
+				f++;
+			}
+			else { fields[j][i] = *new Field(j, i); }
+		}
+	}
+
+	Player playerWhite = *new Player(true, whitefigures);
+	Player playerBlack = *new Player(false, blackfigures);
+	Board Game = *new Board(playerWhite, playerBlack, fields, size);
+
+
+
+
+	// oop
 	
 	RenderWindow window(VideoMode(453, 453), "chess");
 	std::cout << "white" << std::endl;
@@ -317,9 +366,14 @@ int main()
 
 	Sprite sBoard(t2);
 
-	for (int i = 0; i < 32; i++) figure[i].setTexture(t1);
+	for (int i = 0; i < 32; i++) 
+	{ 
+		allFigures[i].texture.setTexture(t1); // oop
+		figure[i].setTexture(t1); 
+	}
 
-	loadPosition();
+	//loadPosition();
+	Game.loadPosition(); // oop
 
 	int current = 0;
 	Vector2f oldPos,newPos;
@@ -343,8 +397,12 @@ int main()
 				if ((event.key.code == Keyboard::Z) && (position.length() > 5))
 				{
 					position.erase(position.length() - 6, 5);
+					Game.position.erase(position.length() - 6, 5); // oop
 					loadPosition();
+					Game.loadPosition(); // oop
 					step = !step;
+					Game.swichStep(); // oop
+					(Game.white.step) ? std::cout << "white" << std::endl : std::cout << "black" << std::endl; // oop
 					if (step) std::cout << "white" << std::endl;
 					else std::cout << "black" << std::endl;
 				}
