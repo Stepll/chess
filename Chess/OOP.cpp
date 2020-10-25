@@ -16,6 +16,14 @@ class Coordinates
 {
 public:
 	int x, y;
+
+	Coordinates() {}
+
+	Coordinates(int x, int y)
+	{
+		this->x = x;
+		this->y = y;
+	}
 };
 
 class Figure // x32
@@ -88,9 +96,42 @@ public:
 
 	}
 
-	void updateone(Figure figure)
+	void updateone(Figure figure) // Field.listFigures and  Figure.figureReadyMove
 	{
-	
+		if (figure.index == 6)
+		{
+			if ((figure.color) && (figure.pos.y == 6))
+			{
+				
+				if (((&field[figure.pos.x][figure.pos.y - 2].figure) &&
+					(field[figure.pos.x][figure.pos.y - 2].figure.color != figure.color) &&
+					(!&field[figure.pos.x][figure.pos.y - 1].figure)) ||
+					((!&field[figure.pos.x][figure.pos.y - 2].figure) &&
+						(!&field[figure.pos.x][figure.pos.y - 1].figure)))
+				{
+					Coordinates tmp = *new Coordinates(figure.pos.x, figure.pos.y - 1);
+					figure.figureReadyMove.push_back(tmp);
+				}
+				
+			}
+			if (figure.color)
+			{
+				if (((&field[figure.pos.x][figure.pos.y - 1].figure) &&
+					(field[figure.pos.x][figure.pos.y - 1].figure.color != figure.color)) ||
+					(!&field[figure.pos.x][figure.pos.y - 1].figure))
+				{
+					Coordinates tmp = *new Coordinates(figure.pos.x, figure.pos.y - 1);
+					figure.figureReadyMove.push_back(tmp);
+				}
+				if (((&field[figure.pos.x][figure.pos.y - 1].figure) &&
+					(field[figure.pos.x][figure.pos.y - 1].figure.color != figure.color)) ||
+					(!&field[figure.pos.x][figure.pos.y - 1].figure))
+				{
+					Coordinates tmp = *new Coordinates(figure.pos.x, figure.pos.y - 1);
+					figure.figureReadyMove.push_back(tmp);
+				}
+			}
+		}
 	}
 
 	void update()

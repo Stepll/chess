@@ -1,17 +1,16 @@
 ﻿  Main.cpp
-e:\code\vs c++\chess\chess\chess\oop.cpp(174): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
+e:\code\vs c++\chess\chess\chess\oop.cpp(215): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
           with
           [
               T=float
           ]
-e:\code\vs c++\chess\chess\chess\oop.cpp(213): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-e:\code\vs c++\chess\chess\chess\oop.cpp(218): warning C4018: <: несоответствие типов со знаком и без знака
+e:\code\vs c++\chess\chess\chess\oop.cpp(254): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+e:\code\vs c++\chess\chess\chess\oop.cpp(259): warning C4018: <: несоответствие типов со знаком и без знака
 e:\code\vs c++\chess\chess\chess\main.cpp(46): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
           with
           [
               T=float
           ]
-e:\code\vs c++\chess\chess\chess\main.cpp(86): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
 e:\code\vs c++\chess\chess\chess\main.cpp(88): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
 e:\code\vs c++\chess\chess\chess\main.cpp(94): warning C4018: <: несоответствие типов со знаком и без знака
 e:\code\vs c++\chess\chess\chess\main.cpp(107): warning C4244: инициализация: преобразование "T" в "int", возможна потеря данных
@@ -44,22 +43,22 @@ e:\code\vs c++\chess\chess\chess\main.cpp(118): warning C4244: инициали�
           [
               T=float
           ]
-e:\code\vs c++\chess\chess\chess\main.cpp(297): warning C4244: =: преобразование "const T" в "int", возможна потеря данных
+e:\code\vs c++\chess\chess\chess\main.cpp(299): warning C4244: =: преобразование "const T" в "int", возможна потеря данных
           with
           [
               T=float
           ]
-e:\code\vs c++\chess\chess\chess\main.cpp(298): warning C4244: =: преобразование "const T" в "int", возможна потеря данных
+e:\code\vs c++\chess\chess\chess\main.cpp(300): warning C4244: =: преобразование "const T" в "int", возможна потеря данных
           with
           [
               T=float
           ]
-e:\code\vs c++\chess\chess\chess\main.cpp(304): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
+e:\code\vs c++\chess\chess\chess\main.cpp(306): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
           with
           [
               T=float
           ]
-e:\code\vs c++\chess\chess\chess\main.cpp(417): warning C4244: аргумент: преобразование "T" в "T", возможна потеря данных
+e:\code\vs c++\chess\chess\chess\main.cpp(422): warning C4244: аргумент: преобразование "T" в "T", возможна потеря данных
           with
           [
               T=int
@@ -68,12 +67,12 @@ e:\code\vs c++\chess\chess\chess\main.cpp(417): warning C4244: аргумент:
           [
               T=float
           ]
-e:\code\vs c++\chess\chess\chess\main.cpp(435): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
+e:\code\vs c++\chess\chess\chess\main.cpp(440): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
           with
           [
               T=float
           ]
-e:\code\vs c++\chess\chess\chess\main.cpp(436): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
+e:\code\vs c++\chess\chess\chess\main.cpp(441): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
           with
           [
               T=float
